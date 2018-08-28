@@ -68,6 +68,46 @@ max(afl_tweets$favoriteCount)
 # Select that tweet using code
 afl_tweets[which.max(afl_tweets$favoriteCount),]
 
+
+# Creating Plots
+
+# Install and load required packages for creating plots
+install.packages("ggplot2")
+library("ggplot2")
+
+# Plot a histogram based on the time of the tweet
+ggplot(data = afl_tweets, aes(x = created)) + geom_histogram()
+
+# Plot the retweetCount count against the time of the tweet
+ggplot(data = afl_tweets, aes(x = created, y = retweetCount,  color = isRetweet)) + geom_point()
+
+
+# Using Geo Location
+
+# Scraping for tweets near Melbourne city (Using the location of Flinders Street Station)
+# melb_tweets <- searchTwitter("melbourne", n=500, lang="en", geocode = "-37.818065,144.967963,1mi")
+
+# Convert collected tweets to a dataframe
+melb_tweets <- twListToDF(melb_tweets)
+
+# Convert latitude and longitude to numeric values
+melb_tweets$latitude <- as.numeric(melb_tweets$latitude)
+melb_tweets$longitude <- as.numeric(melb_tweets$longitude)
+
+# Install and load required packages for creating maps
+install.packages("ggmap")
+library("ggmap")
+
+# Create a map of Melbourne city
+map <- qmap('Melbourne', zoom=15)
+
+# Add a layer of points which shows the tweet locations
+map <- map + geom_point(data = melb_tweets, aes(x=longitude, y=latitude), size = 2, color = 'red')
+
+# Print the map
+map
+
+
 # Backup option
 # Receiving errors because classmates overloaded the account? Load 1000 pre-collected #AFL tweets from Niels' server:
 # afl_tweets <- read.csv('https://www.nielsvanberkel.com/files/afl_tweets.csv')
