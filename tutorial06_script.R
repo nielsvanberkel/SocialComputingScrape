@@ -95,13 +95,11 @@ tweets_cleaned %>%
 # Load dictionary with -5 to 5 sentiment score assigned to each word
 afinn <- get_sentiments("afinn")
 # Load dictionary with positive / negative sentiment words
-bing <- get_sentiments("bing") %>% 
-  count(sentiment)
+bing <- get_sentiments("bing")
 
 sentiment_tweets <- tweets_cleaned %>%
   inner_join(afinn) %>%
   count(word, sort = TRUE)
-
 sentiment_tweets <- merge(sentiment_tweets, afinn, by = "word")
 
 # install.packages("wordcloud")
