@@ -102,6 +102,8 @@ sentiment_tweets <- tweets_cleaned %>%
   inner_join(afinn) %>%
   count(word, sort = TRUE)
 
+sentiment_tweets <- merge(sentiment_tweets, afinn, by = "word")
+
 # install.packages("wordcloud")
 library(wordcloud)
 
